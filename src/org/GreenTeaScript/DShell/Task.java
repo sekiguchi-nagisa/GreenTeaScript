@@ -410,7 +410,7 @@ class CauseInferencer {
 			BufferedReader br = new BufferedReader(new FileReader(logFilePath));
 			String line;
 			while((line = br.readLine()) != null) {	// TODO: support error message
-				readLineStack.push(line.split("::")[0]);
+				readLineStack.push(line.split("::")[3]);
 			}
 			br.close();
 		}
@@ -423,6 +423,10 @@ class CauseInferencer {
 
 		try {
 			String[] ret = {null, null, readLineStack.peek()};
+			if(!ret[2].startsWith("E")) {
+				int stackSize = readLineStack.size();
+				ret[2] = readLineStack.get(stackSize - 2);
+			}
 			return ret;
 		}
 		catch(EmptyStackException e) {
