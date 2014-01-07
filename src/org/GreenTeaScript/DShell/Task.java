@@ -422,11 +422,15 @@ class CauseInferencer {
 		}
 
 		try {
-			String[] ret = {null, null, readLineStack.peek()};
-			if(!ret[2].startsWith("E")) {
-				int stackSize = readLineStack.size();
-				ret[2] = readLineStack.get(stackSize - 2);
+			int index = -1;
+			int stackSize = readLineStack.size();
+			for(int i = stackSize - 1; i > -1; i--) {
+				if(readLineStack.get(i).startsWith("S")) {
+					index = --i;
+					break;
+				}
 			}
+			String[] ret = {null, null, readLineStack.get(index)};
 			return ret;
 		}
 		catch(EmptyStackException e) {
